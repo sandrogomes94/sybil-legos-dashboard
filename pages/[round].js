@@ -1,17 +1,31 @@
 // MODULES
-import clientPromise from "../lib/mongodb";
+import { useState, useEffect } from "react";
 
 // COMPONENTS
-import Content from "./components/content";
-import Header from "./components/header";
+import Content from "../components/content";
+import Header from "../components/header";
 
-export default function Round(props){
+function Round(props) {
+
+  const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState()
+  const [applications, setApplications] = useState()
+  const [round, setRound] = useState()
+
+  useEffect(() => {
+    setStats(props.stats.stats);
+    setApplications(props.applications.applications)
+    setRound(props.round);
+    setLoading(false);
+  }, []);
+
+  if (loading) return <></>;
 
   return(
     <>
       <div className="app-container">
         <Header />
-        <Content applications={props.applications} stats={props.stats} round={props.round}/>
+        <Content stats={stats} applications={applications} round={round} />
       </div>
     </>
   );
@@ -19,17 +33,16 @@ export default function Round(props){
 
 export async function getServerSideProps(context) {
   const { round } = context.query;
-
-  const client = await clientPromise;
-  const db = client.db("gitcoin_rounds");
-
-  let stats = await db.collection(`${round}_stats`).find({}).toArray();
-  stats = JSON.parse(JSON.stringify(stats));
-
-  let applications = await db.collection(`${round}_applications`).find({}).toArray();
-  applications = JSON.parse(JSON.stringify(applications));
+  console.log(round)
+  let stats = await fetch(`${process.env.API_ENDPOINT}/api/stats/${round}`)
+  stats = await stats.json()
+  console.log(stats)
+  let applications = await fetch(`${process.env.API_ENDPOINT}/api/applications/${round}`)
+  applications = await applications.json()
 
   return {
-    props: { applications, stats, round },
-  };
+    props: { stats, applications, round },
+  }
 }
+
+export default Round;

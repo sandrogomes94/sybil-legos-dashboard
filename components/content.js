@@ -1,4 +1,6 @@
-export default function Content(props) {
+import Round from "../pages/[round]";
+
+export default function Content({ stats, applications, round }) {
 
   return (
     <>
@@ -87,25 +89,25 @@ export default function Content(props) {
         </div>
         <div className="projects-section">
           <div className="projects-section-header">
-            <p>{props.round.toUpperCase()} Round</p>
+            <p>{round.toUpperCase()} Round</p>
           </div>
           <div className="projects-section-line">
             <div className="projects-status">
               <div className="item-status">
-                <span className="status-number">{props.stats[0].total_votes}</span>
+                <span className="status-number">{stats.total_votes}</span>
                 <span className="status-type">Total Donors</span>
               </div>
               <div className="item-status">
-                <span className="status-number">{props.stats[0].unique_votes}</span>
+                <span className="status-number">{stats.unique_votes}</span>
                 <span className="status-type">Unique Donors</span>
               </div>
               <div className="item-status">
-                <span className="status-number">{props.stats[0].total_dai}</span>
+                <span className="status-number">{stats.total_dai}</span>
                 <span className="status-type">DAI Donated</span>
               </div>
               <div className="item-status">
-                <span className="status-number">{props.stats[0].total_ftm || props.stats[0].total_eth}</span>
-                <span className="status-type">{props.stats[0].total_ftm ? 'FTM' : 'ETH'} Donated</span>
+                <span className="status-number">{stats.total_eth || stats.total_ftm}</span>
+                <span className="status-type">{stats.total_eth ? "ETH" : "FTM"} Donated</span>
               </div>
             </div>
             <div className="view-actions">
@@ -131,7 +133,7 @@ export default function Content(props) {
             </div>
           </div>
           <div className="project-boxes jsGridView">
-            {props.applications.map((application) => (
+            {applications.map((application) => (
               <div className="project-box-wrapper">
                 <div className="project-box">
                   <div className="project-box-content-header" key={application._id}>

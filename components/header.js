@@ -4,7 +4,7 @@ export default function Header() {
     <>
       <div className="app-header">
         <div className="app-header-left">
-          <span className="app-name">Anti Sybil Lego Dashboard</span>
+          <span className="app-name">Sybil Lego Dashboard</span>
         </div>
       </div>
     </>
