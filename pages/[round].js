@@ -33,10 +33,8 @@ function Round(props) {
 
 export async function getServerSideProps(context) {
   const { round } = context.query;
-  console.log(round)
   let stats = await fetch(`${process.env.API_ENDPOINT}/api/stats/${round}`)
   stats = await stats.json()
-  console.log(stats)
   let applications = await fetch(`${process.env.API_ENDPOINT}/api/applications/${round}`)
   applications = await applications.json()
 
